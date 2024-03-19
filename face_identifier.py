@@ -2,6 +2,7 @@ import face_recognition
 import cv2
 import numpy as np
 import os
+import urllib.request
 
 class FaceRecognition:
     def __init__(self):
@@ -26,13 +27,17 @@ class FaceRecognition:
         self.face_names = []
         self.process_this_frame = True
 
-    def detect_faces(self):
+    def detect_faces(self, url):
         # Get a reference to webcam #0 (the default one)
-        video_capture = cv2.VideoCapture(0)
+        # video_capture = cv2.VideoCapture(0)
+        
 
         while True:
             # Grab a single frame of video
-            ret, frame = video_capture.read()
+            # ret, frame = video_capture.read()
+            img_resp = urllib.request.urlopen(url)
+            imgnp_arr=np.array(bytearray(img_resp.read()),dtype=np.uint8)
+            frame = cv2.imdecode(imgnp_arr, -1)
 
             if self.process_this_frame:
                 small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
@@ -91,9 +96,9 @@ class FaceRecognition:
                 break
 
         # Release handle to the webcam
-        video_capture.release()
+        # video_capture.release()
         cv2.destroyAllWindows()
 
 if __name__ == "__main__":
     face_rec = FaceRecognition()
-    face_rec.detect_faces()
+    face_rec.detect_faces(url='http://192.168.100.45/cam-mid.jpg')
