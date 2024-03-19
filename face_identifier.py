@@ -3,6 +3,7 @@ import cv2
 import numpy as np
 import os
 import urllib.request
+import requests
 
 class FaceRecognition:
     def __init__(self):
@@ -27,7 +28,7 @@ class FaceRecognition:
         self.face_names = []
         self.process_this_frame = True
 
-    def detect_faces(self, url):
+    def detect_faces(self, url, esp32_ip):
         # Get a reference to webcam #0 (the default one)
         # video_capture = cv2.VideoCapture(0)
         
@@ -87,6 +88,8 @@ class FaceRecognition:
                 cv2.rectangle(frame, (left, bottom - 35), (right, bottom), (0, 0, 255), cv2.FILLED)
                 font = cv2.FONT_HERSHEY_DUPLEX
                 cv2.putText(frame, name, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
+                
+                requests.get(f'http://{esp32_ip}/led?command={name}')
 
             # Display the resulting image
             cv2.imshow('Video', frame)
@@ -101,4 +104,4 @@ class FaceRecognition:
 
 if __name__ == "__main__":
     face_rec = FaceRecognition()
-    face_rec.detect_faces(url='http://192.168.100.45/cam-mid.jpg')
+    face_rec.detect_faces(url='http://192.168.100.45/cam-mid.jpg', esp32_ip='192.168.100.45')
