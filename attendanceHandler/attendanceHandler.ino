@@ -2,8 +2,8 @@
 #include <WiFi.h>
 #include <esp32cam.h>
 
-const char* WIFI_SSID = "*********";
-const char* WIFI_PASS = "*********";
+const char* WIFI_SSID = "BlackOcean";
+const char* WIFI_PASS = "L@Past!0";
 
 const int LED_PIN = 4; // Replace with the pin connected to your LED
 
@@ -50,10 +50,10 @@ void handleJpgMid() {
   serveJpg();
 }
 
-void handleLedControl() {
-  if (server.hasArg("command")) {
-    String command = server.arg("command");
-    Serial.println(command);
+void handleAttendance() {
+  if (server.hasArg("name")) {
+    String name = server.arg("name");
+    Serial.println(name);
   }
   server.send(200, "text/plain", "OK");
 }
@@ -92,7 +92,7 @@ void setup() {
   server.on("/cam-lo.jpg", handleJpgLo);
   server.on("/cam-hi.jpg", handleJpgHi);
   server.on("/cam-mid.jpg", handleJpgMid);
-  server.on("/led", handleLedControl);
+  server.on("/attendance", handleAttendance);
 
   server.begin();
 }
