@@ -2,8 +2,8 @@
 #include <WiFi.h>
 #include <esp32cam.h>
 
-const char* WIFI_SSID = "BlackOcean";
-const char* WIFI_PASS = "L@Past!0";
+const char* WIFI_SSID = "*******";
+const char* WIFI_PASS = "******";
 
 const int LED_PIN = 4; // Replace with the pin connected to your LED
 
